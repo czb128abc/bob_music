@@ -1,9 +1,15 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import { Layout } from 'antd';
+import * as actions from '../actions';
+import netease from '../services/netease';
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content } = Layout;
 
-export default class LayoutView extends React.Component {
+class LayoutView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,22 +17,16 @@ export default class LayoutView extends React.Component {
     };
   }
 
-  onSiderCollapse = () => {
-    this.setState({ collapsed: !this.state.collapsed });
-  };
+  componentDidMount() {
+    this.props.searchSong('jay', 10, 1);
+    netease.search('周杰伦');
+  }
 
   render() {
     return (
       <Layout className="top-layout">
         <Header>search</Header>
         <Layout>
-          <Sider
-            collapsible
-            collapsed={this.state.collapsed}
-            onCollapse={this.onSiderCollapse}
-          >
-            Sider
-          </Sider>
           <Content>
             Content
           </Content>
@@ -35,3 +35,25 @@ export default class LayoutView extends React.Component {
     );
   }
 }
+
+LayoutView.propsTypes = {
+  searchSong: PropTypes.func,
+};
+
+// const mapStateToProps = (state) => {
+//   const root = state.pages.setting.store.printer.documentStyleTemplet.edit;
+//   const systemLoading = state.__system__.loading;
+//   return {
+//     systemComponentsData: root.get('systemComponentsData'),
+//     previewComponentsData: root.get('previewComponentsData'),
+//     editData: root.get('editData'),
+//     systemLoading,
+//   };
+// };
+
+const mapDispatchToProps = ({
+  searchSong: actions.searchSong,
+});
+
+
+export default connect(null, mapDispatchToProps)(LayoutView);

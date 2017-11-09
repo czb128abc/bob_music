@@ -1,12 +1,10 @@
-const Consts = {
+const HttpMethods = {
   POST: 'POST',
   GET: 'GET',
 };
-function createUrl(url) {
-  return `${url}`;
-}
 
-function fetchRequest(HttpMethod, url, params = {}, options) {
+
+async function fetchRequest(HttpMethod, url, params = {}, options) {
   const defaultOptions = {
     mode: 'cors',
     credentials: 'include',
@@ -25,8 +23,7 @@ function fetchRequest(HttpMethod, url, params = {}, options) {
   if (contentType && contentType === 'application/json' && requestOptions.body) {
     requestOptions.body = JSON.stringify(requestOptions.body);
   }
-  // const request = createAPI(HttpMethod, createUrl(url), requestOptions);
-  // return request();
+  const res = await fetch(url, requestOptions);
 }
 
 /**
@@ -34,22 +31,22 @@ function fetchRequest(HttpMethod, url, params = {}, options) {
  */
 const api = {
   post(url, params = {}, options = {}) {
-    return fetchRequest(Consts.HttpMethods.POST, url, params, options);
+    return fetchRequest(HttpMethods.POST, url, params, options);
   },
   jsonPost(url, params = {}, options = {}) {
     const headers = {
       'Content-Type': 'application/json'
     };
-    return fetchRequest(Consts.HttpMethods.POST, url, params, Object.assign({ headers }, options));
+    return fetchRequest(HttpMethods.POST, url, params, Object.assign({ headers }, options));
   },
   get(url, params = {}, options = {}) {
-    return fetchRequest(Consts.HttpMethods.GET, url, params, options);
+    return fetchRequest(HttpMethods.GET, url, params, options);
   },
   jsonGet(url, params = {}, options = {}) {
     const headers = {
       'Content-Type': 'application/json'
     };
-    return fetchRequest(Consts.HttpMethods.GET, url, params, Object.assign({ headers }, options));
+    return fetchRequest(HttpMethods.GET, url, params, Object.assign({ headers }, options));
   }
 };
 

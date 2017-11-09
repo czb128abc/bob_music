@@ -1,7 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 import rootReducers from './reducers';
 
-let enhancer = applyMiddleware();
+let enhancer = applyMiddleware(thunk);
 // console error in development environment
 enhancer = compose(
   enhancer,
