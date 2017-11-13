@@ -1,31 +1,7 @@
 
-export async function fetchJSON(input, opts) {
-  const res = await fetch(`${input}`, {
-    ...opts,
-    credentials: 'include',
-  });
-  if (!res.ok) {
-    const err = new Error('network status error');
-    err.status = res.status;
-    const json = await res.json();
-    if (json && json.headers) {
-      err.code = json.headers.responseCode;
-    }
-    throw err;
-  }
-  const json = await res.json();
-  if (json.headers && json.headers.responseCode !== 0) {
-    const err = new Error('result code');
-    err.code = json.headers.responseCode;
-    err.message = json.headers.responseMessage;
-    throw err;
-  }
-  return json.body;
-}
-
 export default class Music {
-  constructor() {
-    this.fetchJSON = fetchJSON;
+  constructor({ source }) {
+    this.source = source;
   }
   queryCoverPlaylist() {
     throw new Error('Music should be abs');

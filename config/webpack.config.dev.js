@@ -124,7 +124,7 @@ module.exports = {
             loader: require.resolve('eslint-loader'),
           },
         ],
-        include: paths.appSrc,
+        exclude: paths.appSrc,
       },
       {
         // "oneOf" will traverse all following loaders until one will
