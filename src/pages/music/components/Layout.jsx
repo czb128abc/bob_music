@@ -38,7 +38,7 @@ class LayoutView extends React.Component {
   }
 }
 
-LayoutView.propsTypes = {
+LayoutView.propTypes = {
   searchResult: PropTypes.object,
   searchSong: PropTypes.func,
 };

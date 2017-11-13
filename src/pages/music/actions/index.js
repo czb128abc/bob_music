@@ -9,3 +9,8 @@ export const searchSong = keywords => (dispatch) => {
     });
   });
 };
+
+export const addToMyPlayList = list => ({
+  type: actionTypes.ADD_TO_MY_PLAY_LIST,
+  payload: { list }
+});
