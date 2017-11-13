@@ -69,7 +69,7 @@ netease.search = async (keyword) => {
     };
     return song;
   });
-  return list;
+  return { list };
 };
 
 netease.querySongInfo = async (songId) => {
@@ -101,6 +101,5 @@ netease.queryLyric = async (songId) => {
   return { lyric };
 };
 
-window.netease = netease;
 export default netease;
 

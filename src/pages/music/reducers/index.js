@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-// import * as actionTypes from '../consts/actionTypes';
+import * as actionTypes from '../consts/actionTypes';
 
 function createReducer(initialState, handlers) {
   if (!initialState || !handlers) {
@@ -29,9 +29,15 @@ const initialState = fromJS({
     volume: 0.8,
     nowPlayingTrackId: null,
   },
-  myPlayList: []
+  myPlayList: [],
+  searchResult: {},
 });
 
-const handlers = {};
+const handlers = {
+  [actionTypes.SEARCH_SONG](state, { payload }) {
+    const { source, list } = payload;
+    return state.setIn(`searchResult.${source}`.split('.'), fromJS({ list, source }));
+  }
+};
 
 export default createReducer(initialState, handlers);

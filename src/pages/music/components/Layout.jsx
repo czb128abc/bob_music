@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,6 +5,7 @@ import { connect } from 'react-redux';
 import { Layout } from 'antd';
 import * as actions from '../actions';
 import netease from '../services/netease';
+import MusicSearchView from './MusicSearchView';
 
 const { Header, Content } = Layout;
 
@@ -18,17 +18,19 @@ class LayoutView extends React.Component {
   }
 
   componentDidMount() {
-    this.props.searchSong('jay', 10, 1);
-    netease.search('周杰伦');
   }
 
   render() {
+    const { searchSong, searchResult } = this.props;
     return (
       <Layout className="top-layout">
         <Header>search</Header>
         <Layout>
           <Content>
-            Content
+            <MusicSearchView
+              searchSong={searchSong}
+              searchResult={searchResult}
+            />
           </Content>
         </Layout>
       </Layout>
@@ -37,23 +39,20 @@ class LayoutView extends React.Component {
 }
 
 LayoutView.propsTypes = {
+  searchResult: PropTypes.object,
   searchSong: PropTypes.func,
 };
 
-// const mapStateToProps = (state) => {
-//   const root = state.pages.setting.store.printer.documentStyleTemplet.edit;
-//   const systemLoading = state.__system__.loading;
-//   return {
-//     systemComponentsData: root.get('systemComponentsData'),
-//     previewComponentsData: root.get('previewComponentsData'),
-//     editData: root.get('editData'),
-//     systemLoading,
-//   };
-// };
+const mapStateToProps = (state) => {
+  const root = state.music;
+  return {
+    searchResult: root.get('searchResult')
+  };
+};
 
 const mapDispatchToProps = ({
   searchSong: actions.searchSong,
 });
 
 
-export default connect(null, mapDispatchToProps)(LayoutView);
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutView);
