@@ -7,6 +7,8 @@ import * as actions from '../actions';
 import MusicSearchView from './MusicSearchView';
 import Player from './player/Player';
 
+import './Layout.less';
+
 const { Header, Content } = Layout;
 
 class LayoutView extends React.Component {
@@ -23,7 +25,7 @@ class LayoutView extends React.Component {
   render() {
     const { searchSong, searchResult, addToMyPlayList, myPlayList } = this.props;
     return (
-      <Layout className="top-layout">
+      <Layout className="music-top-layout">
         <Header>search</Header>
         <Layout>
           <Content>

@@ -36,6 +36,7 @@
     "jest": "20.0.4",
     "less-loader": "^4.0.5",
     "mashape-oauth": "^0.1.71",
+    "moment": "^2.19.2",
     "music-api": "^0.3.11",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
