@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Tabs, Table, Row, Col, Icon } from 'antd';
@@ -15,8 +14,9 @@ const types = {
 
 export default class MusicSearchView extends React.Component {
   static propTypes = {
-    searchSong: PropTypes.func,
-    searchResult: PropTypes.object,
+    addToMyPlayList: PropTypes.func.isRequired,
+    searchSong: PropTypes.func.isRequired,
+    searchResult: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -32,11 +32,17 @@ export default class MusicSearchView extends React.Component {
     const columns = [{
       title: '歌曲',
       dataIndex: 'title',
-      render: text => (
-        <div>
-          <Icon type="play-circle-o" /> {text}
-        </div>
-      )
+      render: (text, record) => {
+        const handleAddToMyPlayList = () => {
+          this.props.addToMyPlayList([record]);
+        };
+        return (
+          <div>
+            <Icon type="play-circle-o" /> {text}
+            <Icon type="plus" onClick={handleAddToMyPlayList} />
+          </div>
+        );
+      }
     }, {
       title: '歌手',
       dataIndex: 'artistName',

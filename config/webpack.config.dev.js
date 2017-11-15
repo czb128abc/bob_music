@@ -12,6 +12,10 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
+
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/';
@@ -86,7 +90,7 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx', 'less', 'css'],
     alias: {
 
       // Support React Native Web
@@ -155,6 +159,26 @@ module.exports = {
               cacheDirectory: true,
             },
           },
+          {
+            test: /\.less/,
+            use: ExtractTextPlugin.extract([
+              {
+                loader: 'css-loader'
+              },
+              {
+                loader: 'postcss-loader',
+                options: {
+                  plugins: [
+                    autoprefixer({ browsers: ['last 10 versions', '> 1%'] })
+                  ]
+                }
+              },
+              {
+                loader: 'less-loader'
+              }
+            ])
+          },
+
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
           // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -247,6 +271,12 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+    new ExtractTextPlugin({
+      filename: 'css/[name].[contenthash:6].css',
+      disable: false,
+      allChunks: true
+    }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

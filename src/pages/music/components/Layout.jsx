@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 import { Layout } from 'antd';
 import * as actions from '../actions';
-import netease from '../services/netease';
 import MusicSearchView from './MusicSearchView';
+import Player from './player/Player';
 
 const { Header, Content } = Layout;
 
@@ -21,7 +21,7 @@ class LayoutView extends React.Component {
   }
 
   render() {
-    const { searchSong, searchResult } = this.props;
+    const { searchSong, searchResult, addToMyPlayList, myPlayList } = this.props;
     return (
       <Layout className="top-layout">
         <Header>search</Header>
@@ -29,7 +29,12 @@ class LayoutView extends React.Component {
           <Content>
             <MusicSearchView
               searchSong={searchSong}
+              addToMyPlayList={addToMyPlayList}
               searchResult={searchResult}
+            />
+            <Player
+              myPlayList={myPlayList}
+              handlePlayTheSong={() => {}}
             />
           </Content>
         </Layout>
@@ -39,19 +44,24 @@ class LayoutView extends React.Component {
 }
 
 LayoutView.propTypes = {
-  searchResult: PropTypes.object,
-  searchSong: PropTypes.func,
+  myPlayList: PropTypes.object.isRequired,
+  searchResult: PropTypes.object.isRequired,
+
+  searchSong: PropTypes.func.isRequired,
+  addToMyPlayList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const root = state.music;
   return {
-    searchResult: root.get('searchResult')
+    searchResult: root.get('searchResult'),
+    myPlayList: root.get('myPlayList')
   };
 };
 
 const mapDispatchToProps = ({
   searchSong: actions.searchSong,
+  addToMyPlayList: actions.addToMyPlayList,
 });
 
 

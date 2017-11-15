@@ -37,6 +37,12 @@ const handlers = {
   [actionTypes.SEARCH_SONG](state, { payload }) {
     const { source, list } = payload;
     return state.setIn(`searchResult.${source}`.split('.'), fromJS({ list, source }));
+  },
+  [actionTypes.ADD_TO_MY_PLAY_LIST](state, { payload }) {
+    const { list } = payload;
+    let myPlayList = state.get('myPlayList').toJS();
+    myPlayList = myPlayList.concat(list);
+    return state.set('myPlayList', fromJS(myPlayList));
   }
 };
 

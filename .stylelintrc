@@ -1,0 +1,9 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules":{
+    "selector-no-qualifying-type": null,
+    "selector-pseudo-element-colon-notation": null,
+    "selector-max-compound-selectors": 5,
+    "max-nesting-depth": 5
+  }
+}
