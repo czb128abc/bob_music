@@ -8,9 +8,7 @@ import Music from './pages/music/components';
 
 const App = () => (
   <Provider store={store}>
-    <div className="app-container">
-      <Music />
-    </div>
+    <Music />
   </Provider>
 );
 

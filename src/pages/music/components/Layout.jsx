@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Layout } from 'antd';
+import { Layout, Row, Col } from 'antd';
 import * as actions from '../actions';
 import MusicSearchView from './MusicSearchView';
 import Player from './player/Player';
 
 import './Layout.less';
 
-const { Header, Content } = Layout;
+const Footer = Layout.Footer;
+const Content = Layout.Content;
 
 class LayoutView extends React.Component {
   constructor(props) {
@@ -34,22 +35,29 @@ class LayoutView extends React.Component {
     const { searchSong, searchResult, addToMyPlayList, myPlayList } = this.props;
     return (
       <Layout className="music-top-layout">
-        <Header>search</Header>
-        <Layout>
-          <Content>
-            <MusicSearchView
-              searchSong={searchSong}
-              searchResult={searchResult}
-              playNow={this.playNow}
-              addToMyPlayList={addToMyPlayList}
-            />
-            <Player
-              ref={(refs) => { this.player = refs; }}
-              myPlayList={myPlayList}
-              handlePlayTheSong={() => {}}
-            />
-          </Content>
-        </Layout>
+        <Content>
+          <Row gutter={16}>
+            <Col span={10}>
+              <MusicSearchView
+                searchSong={searchSong}
+                searchResult={searchResult}
+                playNow={this.playNow}
+                addToMyPlayList={addToMyPlayList}
+              />
+            </Col>
+            <Col span={12}>
+              <Player
+                ref={(refs) => { this.player = refs; }}
+                myPlayList={myPlayList}
+                handlePlayTheSong={() => {}}
+              />
+            </Col>
+          </Row>
+
+        </Content>
+        <Footer>
+
+        </Footer>
       </Layout>
     );
   }

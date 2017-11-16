@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, Tabs, Table, Row, Col, Icon } from 'antd';
+import { Input, Tabs, Table, Row, Col, Icon, Alert } from 'antd';
 
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
@@ -74,11 +74,11 @@ export default class MusicSearchView extends React.Component {
     const { searchResult } = this.props;
     if (!searchResult.get(type)) {
       return (
-        <div>no data</div>
+        <Alert message="等待您搜索!" type="warning" showIcon/>
       );
     }
     return (
-      <div style={{ backgroundColor: '#FFF' }}>
+      <div>
         {
           this.rendSongList(searchResult.getIn(`${type}.list`.split('.')).toJS())
         }
@@ -89,9 +89,7 @@ export default class MusicSearchView extends React.Component {
   rendSearchResult() {
     const typesKeys = Object.keys(types);
     return (
-      <Tabs
-        type="card"
-      >
+      <Tabs>
         {
           typesKeys.map(key => (
             <TabPane
@@ -113,7 +111,7 @@ export default class MusicSearchView extends React.Component {
     return (
       <div className="music-search-view" >
         <Row>
-          <Col offset={10} span={4}>
+          <Col span={10}>
             <Search
               placeholder="输入歌曲名，歌手或专辑"
               onSearch={this.handleSearch}

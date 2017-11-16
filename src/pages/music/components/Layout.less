@@ -1,6 +1,49 @@
-.music-top-layout {
-  .anticon {
-    margin-right: 8px;
-    cursor: pointer;
+.root {
+  background: url("../images/banner.jpg") no-repeat center;
+
+  .music-top-layout {
+    min-height: 100%;
+    margin: 0 auto;
+    padding-top: 20px;
+    max-width: 1200px;
+    background: rgba(251, 246, 246, 0.1);
+
+    .anticon {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .music-search-view {
+      .ant-table,
+      .ant-table-thead > tr > th {
+        color: #fff;
+      }
+
+      .ant-table-tbody > tr:hover > td {
+        background: #988013
+      }
+      .ant-table-thead > tr > th {
+        background: none;
+      }
+
+      .ant-input-search {
+        margin-bottom: 30px;
+        color: #fff;
+
+        .anticon {
+          color: #fff;
+        }
+        .ant-input {
+          background: none;
+          color: #fff;
+          &::placeholder {
+            color: #fff;
+          }
+        }
+      }
+
+    }
+
+
   }
 }

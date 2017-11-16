@@ -168,8 +168,8 @@ export default class Player extends React.Component {
   rendAudio() {
     const { isPlaying, url, duration, currentTime, playerSettings, lyric, } = this.state;
     return (
-      <div className="audio-container">
-        <Row type="flex" justify="space-around" align="middle">
+      <div>
+        <Row className="audio-container" type="flex" justify="space-around" align="middle">
           <Col span={6}>
             <Controls
               isPlaying={isPlaying}

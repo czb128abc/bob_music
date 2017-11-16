@@ -22,7 +22,9 @@ function getLyricList(lyricText) {
         text: item.replace(timeText, ''),
         timeText: timeText.replace('[', '').replace(']', '')
       };
-      lyricList.push(obj);
+      if (obj.text) {
+        lyricList.push(obj);
+      }
     }
   });
   return {
@@ -44,6 +46,9 @@ class LyricRow extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.isActive !== this.props.isActive) {
       this.setState({ isActive: nextProps.isActive });
+      if (nextProps.isActive) {
+        this.domRef.scrollIntoViewIfNeeded();
+      }
     }
   }
 
@@ -55,9 +60,11 @@ class LyricRow extends React.Component {
       itemClassNames.push('active');
     }
     return (
-      <div className={itemClassNames.join(' ')}>
-        [{timeText.split('.')[0]}]
-        {`   ${text}`}
+      <div ref={(refs) => { this.domRef = refs; }} className={itemClassNames.join(' ')}>
+        <span className="time-text">
+          [{timeText.split('.')[0]}]
+        </span>
+        {`${text}`}
       </div>
     );
   }
