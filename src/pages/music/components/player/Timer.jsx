@@ -27,11 +27,11 @@ function formatTimeInfo(currentTime, duration) {
   return `[${currentTimeStr}/${durationStr}]`;
 }
 
-const Timer = ({ currentTime, duration, onChange }) => {
+const Timer = ({ currentTime, duration, onChange, playingSongInfo }) => {
   const formatter = value => `${value}%`;
   return (
     <div className="music-timer">
-      <Row>
+      <Row type="flex" justify="space-around" align="middle">
         <Col span={16}>
           <Slider
             tipFormatter={formatter}
@@ -43,13 +43,16 @@ const Timer = ({ currentTime, duration, onChange }) => {
           {formatTimeInfo(currentTime, duration)}
         </Col>
       </Row>
-
+      {
+        playingSongInfo ? playingSongInfo.title : (<span>等待歌曲播放</span>)
+      }
     </div>
   );
 };
 Timer.propTypes = {
   currentTime: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  playingSongInfo: PropTypes.object,
 };
 export default Timer;

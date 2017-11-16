@@ -61,6 +61,11 @@ export default class Player extends React.Component {
     return index;
   }
 
+  getSongInfoByNowPlayingKey() {
+    const index = this.findIndexNowPlayingKey();
+    return this.props.myPlayList.toJS()[index];
+  }
+
   whenAudioIsEnded() {
     const { playMode } = this.state.playerSettings;
     if (playMode === playModeEnum.SINGLE_TUNE_CIRCULATION) {
@@ -184,6 +189,7 @@ export default class Player extends React.Component {
               currentTime={currentTime}
               duration={duration}
               onChange={this.handleTimerChange}
+              playingSongInfo={this.getSongInfoByNowPlayingKey()}
             />
           </Col>
           <Col span={4}>

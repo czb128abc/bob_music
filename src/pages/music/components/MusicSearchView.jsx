@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, Tabs, Table, Row, Col, Icon, Alert } from 'antd';
+import { Input, Tabs, Table, Row, Col, Icon, Alert, Tooltip } from 'antd';
 
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
@@ -74,7 +74,7 @@ export default class MusicSearchView extends React.Component {
     const { searchResult } = this.props;
     if (!searchResult.get(type)) {
       return (
-        <Alert message="等待您搜索!" type="warning" showIcon/>
+        <Alert message="等待您搜索!" type="warning" showIcon />
       );
     }
     return (
@@ -88,19 +88,32 @@ export default class MusicSearchView extends React.Component {
 
   rendSearchResult() {
     const typesKeys = Object.keys(types);
+    const { searchResult } = this.props;
     return (
       <Tabs>
         {
-          typesKeys.map(key => (
-            <TabPane
-              tab={
-                types[key]
-              }
-              key={key}
-            >
-              {this.rendSearchResultByType(key)}
-            </TabPane>
-          ))
+          typesKeys.map((key) => {
+            const songNum = searchResult.get(key) ? searchResult.get(key).toJS().list.length : 0;
+            return (
+              <TabPane
+                tab={
+                  <div>
+
+                    ({
+                      songNum === 0 ?
+                        (<span>{`${types[key]}${songNum}`}</span>) :
+
+                        <Tooltip title={`已为您搜索出歌曲数量:${songNum}`} >{`${types[key]}${songNum}`}</Tooltip>
+                    })
+                  </div>
+
+                }
+                key={key}
+              >
+                {this.rendSearchResultByType(key)}
+              </TabPane>
+            );
+          })
         }
 
       </Tabs>
