@@ -14,12 +14,20 @@ const { Header, Content } = Layout;
 class LayoutView extends React.Component {
   constructor(props) {
     super(props);
+
+    this.playNow = this.playNow.bind(this);
+
     this.state = {
       collapsed: false,
     };
   }
 
   componentDidMount() {
+  }
+
+  playNow(record) {
+    this.props.addToMyPlayList([record]);
+    this.player.playTheSong(record);
   }
 
   render() {
@@ -31,10 +39,12 @@ class LayoutView extends React.Component {
           <Content>
             <MusicSearchView
               searchSong={searchSong}
-              addToMyPlayList={addToMyPlayList}
               searchResult={searchResult}
+              playNow={this.playNow}
+              addToMyPlayList={addToMyPlayList}
             />
             <Player
+              ref={(refs) => { this.player = refs; }}
               myPlayList={myPlayList}
               handlePlayTheSong={() => {}}
             />

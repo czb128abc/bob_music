@@ -12,23 +12,31 @@ function getSliderValue(currentTime, duration) {
 }
 
 function formatTimeInfo(currentTime, duration) {
-  const currentTimeStr = moment(0, 'HH').add(currentTime, 'second').format('HH:mm:ss');
-  const durationStr = moment(0, 'HH').add(duration, 'second').format('HH:mm:ss');
+  const zeroHover = '00:';
+  let currentTimeStr = moment(0, 'HH').add(currentTime, 'second').format('HH:mm:ss');
+  let durationStr = moment(0, 'HH').add(duration, 'second').format('HH:mm:ss');
+
+  if (currentTimeStr.startsWith(zeroHover)) {
+    currentTimeStr = currentTimeStr.replace(zeroHover, '');
+  }
+
+  if (durationStr.startsWith(zeroHover)) {
+    durationStr = durationStr.replace(zeroHover, '');
+  }
+
   return `[${currentTimeStr}/${durationStr}]`;
 }
 
-
-const Timer = ({ currentTime, duration }) => {
+const Timer = ({ currentTime, duration, onChange }) => {
   const formatter = value => `${value}%`;
   return (
     <div className="music-timer">
       <Row>
         <Col span={16}>
           <Slider
-            disabled
             tipFormatter={formatter}
             value={getSliderValue(currentTime, duration)}
-            onChange={() => {}}
+            onChange={onChange}
           />
         </Col>
         <Col span={8}>
@@ -42,5 +50,6 @@ const Timer = ({ currentTime, duration }) => {
 Timer.propTypes = {
   currentTime: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
 };
 export default Timer;

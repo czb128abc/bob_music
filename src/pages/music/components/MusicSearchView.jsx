@@ -15,6 +15,7 @@ const types = {
 export default class MusicSearchView extends React.Component {
   static propTypes = {
     addToMyPlayList: PropTypes.func.isRequired,
+    playNow: PropTypes.func.isRequired,
     searchSong: PropTypes.func.isRequired,
     searchResult: PropTypes.object.isRequired,
   };
@@ -36,9 +37,13 @@ export default class MusicSearchView extends React.Component {
         const handleAddToMyPlayList = () => {
           this.props.addToMyPlayList([record]);
         };
+        const handlePlayNow = () => {
+          this.props.playNow(record);
+        };
         return (
           <div>
-            <Icon type="play-circle-o" /> {text}
+            <Icon type="play-circle-o" onClick={handlePlayNow} />
+            {text}
             <Icon type="plus" onClick={handleAddToMyPlayList} />
           </div>
         );

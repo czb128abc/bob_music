@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Tooltip } from 'antd';
 
-const Controls = ({ isPlaying, onPause, onPlay }) => (
+const Controls = ({ isPlaying, onPause, onPlay, onPlayPre, onPlayNext }) => (
   <div className="controls">
-    <Icon type="left-circle-o" />
+    <Icon type="left-circle-o" onClick={onPlayPre} />
     {
       isPlaying ?
         (
@@ -19,13 +19,15 @@ const Controls = ({ isPlaying, onPause, onPlay }) => (
           </Tooltip>
         )
     }
-    <Icon type="right-circle-o" />
+    <Icon type="right-circle-o" onClick={onPlayNext} />
   </div>
 );
 Controls.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
   onPause: PropTypes.func.isRequired,
   onPlay: PropTypes.func.isRequired,
+  onPlayPre: PropTypes.func.isRequired,
+  onPlayNext: PropTypes.func.isRequired,
 };
 export default Controls;
 
