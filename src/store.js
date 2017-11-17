@@ -4,9 +4,10 @@ import rootReducers from './reducers';
 
 let enhancer = applyMiddleware(thunk);
 // console error in development environment
-enhancer = compose(
-  enhancer,
-  window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+
+if (typeof window.__REDUX_DEVTOOLS_EXTENSION__ === 'function') {
+  enhancer = compose(enhancer, window.__REDUX_DEVTOOLS_EXTENSION__());
+}
+
 
 export default createStore(rootReducers, enhancer);
