@@ -58,7 +58,6 @@ musicApi.querySongInfo = async (songId) => {
     throw err;
   }
   const text = await res.text();
-  debugger;
   const data = text.substr(0, text.length - 2).replace('jsonCallback(', '');
   const result = JSON.parse(data);
 
@@ -69,7 +68,21 @@ musicApi.querySongInfo = async (songId) => {
 };
 
 musicApi.queryLyric = async (songId) => {
-
+  const url = `${'http://i.y.qq.com/lyric/fcgi-bin/fcg_query_lyric.fcg?' +
+    'songmid='}${songId 
+  }&loginUin=0&hostUin=0&format=jsonp&inCharset=GB2312` +
+    '&outCharset=utf-8&notice=0&platform=yqq&jsonpCallback=MusicJsonCallback&needNewCode=0';
+  const res = await fetch(url, requestOption);
+  if (!res.ok) {
+    const err = new Error('network status error');
+    throw err;
+  }
+  const text = await res.text();
+  const data = text.substr(0, text.length - 1).replace('MusicJsonCallback(', '');
+  const result = JSON.parse(data);
+  
+  const lyric = result.lyric;
+  return { lyric };
 };
 
 window.musicApiQQ = musicApi;
