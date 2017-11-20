@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Layout, Row, Col } from 'antd';
+import { Layout, Row, Col, message } from 'antd';
 import * as actions from '../actions';
 import MusicSearchView from './MusicSearchView';
 import Player from './player/Player';
@@ -17,6 +17,7 @@ class LayoutView extends React.Component {
     super(props);
 
     this.playNow = this.playNow.bind(this);
+    this.searchSong = this.searchSong.bind(this);
 
     this.state = {
       collapsed: false,
@@ -31,15 +32,26 @@ class LayoutView extends React.Component {
     this.player.playTheSong(record);
   }
 
+  searchSong(keywords) {
+    let isLegitimate = true;
+    if (!keywords) {
+      message.warn('请输入关键字,搜索歌曲');
+      isLegitimate = false;
+    }
+    if (isLegitimate) {
+      this.props.searchSong(keywords);
+    }
+  }
+
   render() {
-    const { searchSong, searchResult, addToMyPlayList, myPlayList } = this.props;
+    const { searchResult, addToMyPlayList, myPlayList } = this.props;
     return (
       <Layout className="music-top-layout">
         <Content>
           <Row gutter={16}>
             <Col span={10}>
               <MusicSearchView
-                searchSong={searchSong}
+                searchSong={this.searchSong}
                 searchResult={searchResult}
                 playNow={this.playNow}
                 addToMyPlayList={addToMyPlayList}
@@ -55,9 +67,7 @@ class LayoutView extends React.Component {
           </Row>
 
         </Content>
-        <Footer>
-
-        </Footer>
+        <Footer />
       </Layout>
     );
   }

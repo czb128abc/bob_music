@@ -30,8 +30,26 @@ export default class MusicSearchView extends React.Component {
   }
 
   rendSongList(list) {
+    const handleAddAllSongToMyPlayList = () => {
+      this.props.addToMyPlayList(list);
+    };
     const columns = [{
-      title: '歌曲',
+      title: (
+        <span>
+          歌曲
+          {
+            list.length > 0 ?
+              (
+                <span
+                  className="add-all-search-songs"
+                  onClick={handleAddAllSongToMyPlayList}
+                >
+                  <Icon type="folder-add" />全部添加
+                </span>
+              ) : null
+          }
+        </span>
+      ),
       dataIndex: 'title',
       render: (text, record) => {
         const handleAddToMyPlayList = () => {
@@ -74,7 +92,7 @@ export default class MusicSearchView extends React.Component {
     const { searchResult } = this.props;
     if (!searchResult.get(type)) {
       return (
-        <Alert message="等待您搜索!" type="warning" showIcon />
+        <Alert message="waiting for search" description="等待您搜索!" type="warning" showIcon />
       );
     }
     return (

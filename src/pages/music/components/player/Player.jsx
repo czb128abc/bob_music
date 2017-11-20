@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover, Table, Icon, Row, Col } from 'antd';
+import { Popover, Table, Icon, Row, Col, Alert } from 'antd';
 import netease from '../../services/netease';
 import Controls from './Controls';
 import Timer from './Timer';
@@ -57,7 +57,7 @@ export default class Player extends React.Component {
   findIndexNowPlayingKey() {
     const { nowPlayingKey } = this.state.playerSettings;
     const myPlayList = this.props.myPlayList.toJS();
-    const index = myPlayList.findIndex(item => (nowPlayingKey === `${item.id}_${item.source}`));
+    const index = myPlayList.findIndex(item => (nowPlayingKey === item.key));
     return index;
   }
 
@@ -86,9 +86,14 @@ export default class Player extends React.Component {
   }
 
   handlePlay() {
-    this.setState({ isPlaying: true }, () => {
-      this.audioRef.play();
-    });
+    const { nowPlayingKey } = this.state.playerSettings;
+    if (nowPlayingKey) {
+      this.setState({ isPlaying: true }, () => {
+        this.audioRef.play();
+      });
+    } else {
+      this.handlePlayNext();
+    }
   }
 
   handlePause() {
