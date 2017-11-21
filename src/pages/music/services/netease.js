@@ -66,6 +66,7 @@ netease.search = async (keyword) => {
       albumId: item.album.id,
       sourceUrl: `http://music.163.com/#/song?id=${item.id}`,
       source: netease.source,
+      key: `${item.id}_${netease.source}`,
     };
     return song;
   });
@@ -97,7 +98,11 @@ netease.queryLyric = async (songId) => {
 
   const encData = neteaseEncryptedRequest(param);
   const result = await NeteaseRequest('/song/lyric?csrf_token=&', encData);
-  const lyric = result.lrc.lyric;
+  let lyric = '';
+  if (!result.uncollected) {
+    lyric = result.lrc.lyric || '';
+  }
+
   return { lyric };
 };
 

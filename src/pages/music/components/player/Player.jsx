@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover, Table, Icon, Row, Col } from 'antd';
-import netease from '../../services/netease';
+import { Popover, Table, Icon, Row, Col, Alert } from 'antd';
+import services from '../../services';
 import Controls from './Controls';
 import Timer from './Timer';
 import Voice from './Voice';
@@ -42,8 +42,8 @@ export default class Player extends React.Component {
   async playTheSong(activeSong) {
     const { playerSettings } = this.state;
     const songId = activeSong.id;
-    const songObj = await netease.querySongInfo(songId);
-    const lyricObj = await netease.queryLyric(songId);
+    const songObj = await services[activeSong.source].querySongInfo(songId);
+    const lyricObj = await services[activeSong.source].queryLyric(songId);
     playerSettings.nowPlayingKey = `${activeSong.id}_${activeSong.source}`;
     this.setState({
       url: songObj.url,
@@ -57,7 +57,7 @@ export default class Player extends React.Component {
   findIndexNowPlayingKey() {
     const { nowPlayingKey } = this.state.playerSettings;
     const myPlayList = this.props.myPlayList.toJS();
-    const index = myPlayList.findIndex(item => (nowPlayingKey === `${item.id}_${item.source}`));
+    const index = myPlayList.findIndex(item => (nowPlayingKey === item.key));
     return index;
   }
 
@@ -86,9 +86,14 @@ export default class Player extends React.Component {
   }
 
   handlePlay() {
-    this.setState({ isPlaying: true }, () => {
-      this.audioRef.play();
-    });
+    const { nowPlayingKey } = this.state.playerSettings;
+    if (nowPlayingKey) {
+      this.setState({ isPlaying: true }, () => {
+        this.audioRef.play();
+      });
+    } else {
+      this.handlePlayNext();
+    }
   }
 
   handlePause() {
