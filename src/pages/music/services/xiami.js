@@ -32,6 +32,7 @@ musicApi.search = async (keywords) => {
     };
     song.lyricUrl = item.lyric_file;
     song.mp3Url = item.listen_file;
+    song.imgUrl = item.album_logo;
     // 参数兼容
     song.id = song;
     return song;
@@ -58,5 +59,4 @@ musicApi.queryLyric = async ({ lyricUrl }) => {
   return { lyric };
 };
 
-window.musicApi = musicApi;
 export default musicApi;

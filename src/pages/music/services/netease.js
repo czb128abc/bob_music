@@ -68,6 +68,9 @@ netease.search = async (keyword) => {
       source: netease.source,
       key: `${item.id}_${netease.source}`,
     };
+    if (item.album && item.album.picUrl) {
+      song.imgUrl = item.album.picUrl;
+    }
     return song;
   });
   return { list };
