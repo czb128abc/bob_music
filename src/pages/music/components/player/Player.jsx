@@ -42,8 +42,8 @@ export default class Player extends React.Component {
   async playTheSong(activeSong) {
     const { playerSettings } = this.state;
     const songId = activeSong.id;
-    const songObj = await services[activeSong.source].querySongInfo(songId);
-    const lyricObj = await services[activeSong.source].queryLyric(songId);
+    const songObj = await services[activeSong.source].querySongInfo(songId, activeSong);
+    const lyricObj = await services[activeSong.source].queryLyric(songId, activeSong);
     playerSettings.nowPlayingKey = `${activeSong.id}_${activeSong.source}`;
     this.setState({
       url: songObj.url,

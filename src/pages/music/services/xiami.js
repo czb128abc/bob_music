@@ -33,18 +33,16 @@ musicApi.search = async (keywords) => {
     song.lyricUrl = item.lyric_file;
     song.mp3Url = item.listen_file;
     song.imgUrl = item.album_logo;
-    // 参数兼容
-    song.id = song;
     return song;
   });
   return { list };
 };
-musicApi.querySongInfo = async ({ mp3Url }) => {
+musicApi.querySongInfo = async (songId, { mp3Url }) => {
   await setTimeout(() => {}, 0);
   return { url: mp3Url };
 };
 
-musicApi.queryLyric = async ({ lyricUrl }) => {
+musicApi.queryLyric = async (songId, { lyricUrl }) => {
   const res = await fetch(lyricUrl, requestOption);
   if (!res.ok) {
     const err = new Error('network status error');

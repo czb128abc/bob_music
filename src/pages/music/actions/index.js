@@ -1,11 +1,23 @@
 import * as actionTypes from '../consts/actionTypes';
-import netease from '../services/netease';
+import musicApi from '../services';
 
 export const searchSong = keywords => (dispatch) => {
-  netease.search(keywords).then((data) => {
+  musicApi.netease.search(keywords).then((data) => {
     dispatch({
       type: actionTypes.SEARCH_SONG,
-      payload: { list: data.list, source: netease.source }
+      payload: { list: data.list, source: musicApi.netease.source }
+    });
+  });
+  musicApi.qq.search(keywords).then((data) => {
+    dispatch({
+      type: actionTypes.SEARCH_SONG,
+      payload: { list: data.list, source: musicApi.qq.source }
+    });
+  });
+  musicApi.xiami.search(keywords).then((data) => {
+    dispatch({
+      type: actionTypes.SEARCH_SONG,
+      payload: { list: data.list, source: musicApi.xiami.source }
     });
   });
 };
