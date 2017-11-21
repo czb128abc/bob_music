@@ -1,6 +1,16 @@
 import Music from './Music';
 import { getQueryString } from '../utils';
 
+function str2ab(str) {
+  // string to array buffer.
+  const buf = new ArrayBuffer(str.length);
+  const bufView = new Uint8Array(buf);
+  for (let i = 0, strLen = str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
+
 const requestOption = {
   headers: {
     Referer: 'https://y.qq.com/portal/search.html',
@@ -80,10 +90,14 @@ musicApi.queryLyric = async (songId) => {
   const text = await res.text();
   const data = text.substr(0, text.length - 1).replace('MusicJsonCallback(', '');
   const result = JSON.parse(data);
-  
-  const lyric = result.lyric;
+
+  let lyric = '';
+
+  if (result.lyric) {
+    const td = new window.TextDecoder('utf8');
+    lyric = td.decode(str2ab(atob(result.lyric)));
+  }
   return { lyric };
 };
 
-window.musicApiQQ = musicApi;
 export default musicApi;
