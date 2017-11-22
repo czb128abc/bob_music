@@ -1,5 +1,4 @@
 import Music from './Music';
-import { getQueryString } from '../utils';
 
 const requestOption = {
   method: 'GET',
@@ -30,7 +29,7 @@ musicApi.search = async (keywords) => {
       source: musicApi.source,
       key: `${item.song_id}_${musicApi.source}`,
     };
-    song.lyricUrl = item.lyric_file;
+    song.lyricUrl = item.lyric;
     song.mp3Url = item.listen_file;
     song.imgUrl = item.album_logo;
     return song;
@@ -52,7 +51,9 @@ musicApi.queryLyric = async (songId, { lyricUrl }) => {
   let lyric = '';
 
   if (text) {
-    lyric = text;
+    // 替换格式
+    // [00:48]<201>你<250>的<300>美<249>一<301>缕<550>飘<450>散
+    lyric = text.replace(/<(-?[1-9]\d*)>/g,'');
   }
   return { lyric };
 };
