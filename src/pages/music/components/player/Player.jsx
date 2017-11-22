@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover, Table, Icon, Row, Col, Alert } from 'antd';
+import { Popover, Table, Icon, Row, Col, message } from 'antd';
 import services from '../../services';
 import Controls from './Controls';
 import Timer from './Timer';
@@ -39,7 +39,23 @@ export default class Player extends React.Component {
 
   }
 
+  getSongInfoByNowPlayingKey() {
+    const index = this.findIndexNowPlayingKey();
+    return this.props.myPlayList.toJS()[index];
+  }
+
+  findIndexNowPlayingKey() {
+    const { nowPlayingKey } = this.state.playerSettings;
+    const myPlayList = this.props.myPlayList.toJS();
+    const index = myPlayList.findIndex(item => (nowPlayingKey === item.key));
+    return index;
+  }
+
   async playTheSong(activeSong) {
+    if (!activeSong) {
+      message.warn('播放列表暂无歌曲');
+      return false;
+    }
     const { playerSettings } = this.state;
     const songId = activeSong.id;
     const songObj = await services[activeSong.source].querySongInfo(songId, activeSong);
@@ -52,18 +68,6 @@ export default class Player extends React.Component {
     }, () => {
       this.handlePlay();
     });
-  }
-
-  findIndexNowPlayingKey() {
-    const { nowPlayingKey } = this.state.playerSettings;
-    const myPlayList = this.props.myPlayList.toJS();
-    const index = myPlayList.findIndex(item => (nowPlayingKey === item.key));
-    return index;
-  }
-
-  getSongInfoByNowPlayingKey() {
-    const index = this.findIndexNowPlayingKey();
-    return this.props.myPlayList.toJS()[index];
   }
 
   whenAudioIsEnded() {
