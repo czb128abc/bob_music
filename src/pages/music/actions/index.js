@@ -26,3 +26,8 @@ export const addToMyPlayList = list => ({
   type: actionTypes.ADD_TO_MY_PLAY_LIST,
   payload: { list }
 });
+
+export const removeToMyPlayList = list => ({
+  type: actionTypes.REMOVE_TO_MY_PLAY_LIST,
+  payload: { list }
+});

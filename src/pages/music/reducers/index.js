@@ -23,12 +23,6 @@ function createReducer(initialState, handlers) {
 
 
 const initialState = fromJS({
-  currentPlaying: null,
-  playerSettings: {
-    playMode: 0,
-    volume: 0.8,
-    nowPlayingTrackId: null,
-  },
   myPlayList: [],
   searchResult: {},
 });
@@ -47,6 +41,15 @@ const handlers = {
       );
     myPlayList = list.concat(tempList);
     return state.set('myPlayList', fromJS(myPlayList));
+  },
+  [actionTypes.REMOVE_TO_MY_PLAY_LIST](state, { payload }) {
+    const { list } = payload;
+    const myPlayList = state.get('myPlayList').toJS();
+    const tempList = myPlayList
+      .filter(item =>
+        !list.some(addObj => (item.id === addObj.id && item.source === addObj.source))
+      );
+    return state.set('myPlayList', fromJS(tempList));
   }
 };
 

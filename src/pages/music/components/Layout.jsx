@@ -44,7 +44,7 @@ class LayoutView extends React.Component {
   }
 
   render() {
-    const { searchResult, addToMyPlayList, myPlayList } = this.props;
+    const { searchResult, addToMyPlayList, myPlayList, removeToMyPlayList } = this.props;
     return (
       <Layout className="music-top-layout">
         <Content>
@@ -61,7 +61,7 @@ class LayoutView extends React.Component {
               <Player
                 ref={(refs) => { this.player = refs; }}
                 myPlayList={myPlayList}
-                handlePlayTheSong={() => {}}
+                removeToMyPlayList={removeToMyPlayList}
               />
             </Col>
           </Row>
@@ -79,6 +79,7 @@ LayoutView.propTypes = {
 
   searchSong: PropTypes.func.isRequired,
   addToMyPlayList: PropTypes.func.isRequired,
+  removeToMyPlayList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -92,6 +93,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = ({
   searchSong: actions.searchSong,
   addToMyPlayList: actions.addToMyPlayList,
+  removeToMyPlayList: actions.removeToMyPlayList,
 });
 
 

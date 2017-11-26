@@ -10,6 +10,12 @@ import { playModeEnum } from '../../consts';
 import './Player.less';
 
 export default class Player extends React.Component {
+
+  static propTypes = {
+    myPlayList: PropTypes.object.isRequired,
+    removeToMyPlayList: PropTypes.func.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.playTheSong = this.playTheSong.bind(this);
@@ -146,8 +152,8 @@ export default class Player extends React.Component {
           this.playTheSong(activeSong);
         };
         return (
-          <div onClick={handlePlayTheSong}>
-            {text}
+          <div className="play-list-item" onClick={handlePlayTheSong}>
+            {text} <Icon type="play-circle-o" />
           </div>
         );
       }
@@ -156,6 +162,7 @@ export default class Player extends React.Component {
       dataIndex: 'id',
       render: (text, record) => {
         const handleDelToMyPlayList = () => {
+          this.props.removeToMyPlayList([record]);
         };
         return (
           <div>
@@ -217,12 +224,11 @@ export default class Player extends React.Component {
         {
           lyric && (<Lyric currentTime={currentTime} lyric={lyric} />)
         }
-
         <audio
           ref={(refs) => { this.audioRef = refs; }}
           src={url}
           onTimeUpdate={this.handleTimeUpdate}
-        />
+        ></audio>
       </div>
     );
   }
@@ -236,6 +242,3 @@ export default class Player extends React.Component {
   }
 }
 
-Player.propTypes = {
-  myPlayList: PropTypes.object.isRequired,
-};
