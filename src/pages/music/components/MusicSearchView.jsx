@@ -1,15 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Tabs, Table, Row, Col, Icon, Alert, Tooltip } from 'antd';
+import { musicPlatformMap } from '../consts';
 
 const Search = Input.Search;
 const TabPane = Tabs.TabPane;
-
-const types = {
-  netease: '网易',
-  xiami: '虾米',
-  qq: 'QQ音乐'
-};
 
 
 export default class MusicSearchView extends React.Component {
@@ -75,6 +70,12 @@ export default class MusicSearchView extends React.Component {
     }, {
       title: '来源',
       dataIndex: 'source',
+      render: (text) => {
+        if (musicPlatformMap[text]) {
+          return musicPlatformMap[text];
+        }
+        return '未知';
+      }
     }];
     const dataSource = list
       .map(item => ({ ...item, key: `${item.source}${item.id}` }));
@@ -105,7 +106,7 @@ export default class MusicSearchView extends React.Component {
   }
 
   rendSearchResult() {
-    const typesKeys = Object.keys(types);
+    const typesKeys = Object.keys(musicPlatformMap);
     const { searchResult } = this.props;
     return (
       <Tabs>
@@ -119,9 +120,9 @@ export default class MusicSearchView extends React.Component {
 
                     ({
                       songNum === 0 ?
-                        (<span>{`${types[key]}${songNum}`}</span>) :
+                        (<span>{`${musicPlatformMap[key]}${songNum}`}</span>) :
 
-                        <Tooltip title={`已为您搜索出歌曲数量:${songNum}`} >{`${types[key]}${songNum}`}</Tooltip>
+                        <Tooltip title={`已为您搜索出歌曲数量:${songNum}`} >{`${musicPlatformMap[key]}${songNum}`}</Tooltip>
                     })
                   </div>
 
