@@ -53,7 +53,7 @@ class LyricRow extends React.Component {
   }
 
   render() {
-    const { timeText, text } = this.props;
+    const { text } = this.props;
     const { isActive } = this.state;
     const itemClassNames = ['lyric-item'];
     if (isActive) {
@@ -61,9 +61,6 @@ class LyricRow extends React.Component {
     }
     return (
       <div ref={(refs) => { this.domRef = refs; }} className={itemClassNames.join(' ')}>
-        <span className="time-text">
-          [{timeText.split('.')[0]}]
-        </span>
         {`${text}`}
       </div>
     );
@@ -72,7 +69,6 @@ class LyricRow extends React.Component {
 
 LyricRow.propTypes = {
   isActive: PropTypes.bool.isRequired,
-  timeText: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
 };
 

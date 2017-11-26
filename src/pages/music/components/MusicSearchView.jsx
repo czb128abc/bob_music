@@ -77,8 +77,7 @@ export default class MusicSearchView extends React.Component {
         return '未知';
       }
     }];
-    const dataSource = list
-      .map(item => ({ ...item, key: `${item.source}${item.id}` }));
+    const dataSource = list;
     return (
       <Table
         dataSource={dataSource}

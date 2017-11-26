@@ -10,11 +10,10 @@ import { playModeEnum } from '../../consts';
 import './Player.less';
 
 export default class Player extends React.Component {
-
   static propTypes = {
     myPlayList: PropTypes.object.isRequired,
     removeToMyPlayList: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -26,6 +25,7 @@ export default class Player extends React.Component {
     this.handlePlayPre = this.handlePlayPre.bind(this);
     this.handleTimerChange = this.handleTimerChange.bind(this);
     this.handleVolumeChange = this.handleVolumeChange.bind(this);
+    this.handleRemoveToMyPlayList = this.handleRemoveToMyPlayList.bind(this);
 
     this.state = {
       url: null,
@@ -141,15 +141,35 @@ export default class Player extends React.Component {
     });
   }
 
+  handleRemoveToMyPlayList(list, isRemoveAll) {
+    const { playerSettings } = this.state;
+    if (isRemoveAll) {
+      playerSettings.nowPlayingKey = null;
+      this.setState({ playerSettings });
+      this.handlePause();
+      this.props.removeToMyPlayList(list);
+    } else {
+      const removeSong = list[0];
+      if (removeSong.key === playerSettings.nowPlayingKey) {
+        this.handlePause();
+        this.handlePlayNext();
+      }
+      this.props.removeToMyPlayList(list);
+    }
+  }
+
   rendMyPlayList() {
     const { myPlayList } = this.props;
+    const { nowPlayingKey } = this.state.playerSettings;
     const columns = [{
       title: '歌曲',
       dataIndex: 'title',
       render: (text, record) => {
         const handlePlayTheSong = () => {
-          const activeSong = record;
-          this.playTheSong(activeSong);
+          if (nowPlayingKey !== record.key) {
+            const activeSong = record;
+            this.playTheSong(activeSong);
+          }
         };
         return (
           <div className="play-list-item" onClick={handlePlayTheSong}>
@@ -162,7 +182,7 @@ export default class Player extends React.Component {
       dataIndex: 'id',
       render: (text, record) => {
         const handleDelToMyPlayList = () => {
-          this.props.removeToMyPlayList([record]);
+          this.handleRemoveToMyPlayList([record], false);
         };
         return (
           <div>
@@ -174,8 +194,7 @@ export default class Player extends React.Component {
       title: '歌手',
       dataIndex: 'artistName',
     }];
-    const dataSource = myPlayList.toJS()
-      .map(item => ({ ...item, key: `${item.source}${item.id}` }));
+    const dataSource = myPlayList.toJS();
     return (
       <Table
         dataSource={dataSource}
@@ -191,7 +210,7 @@ export default class Player extends React.Component {
     return (
       <div>
         <Row className="audio-container" type="flex" justify="space-around" align="middle">
-          <Col span={6}>
+          <Col span={4} offset={1}>
             <Controls
               isPlaying={isPlaying}
               onPause={this.handlePause}
@@ -200,7 +219,7 @@ export default class Player extends React.Component {
               onPlayNext={this.handlePlayNext}
             />
           </Col>
-          <Col span={8}>
+          <Col span={14}>
             <Timer
               currentTime={currentTime}
               duration={duration}
@@ -208,12 +227,13 @@ export default class Player extends React.Component {
               playingSongInfo={this.getSongInfoByNowPlayingKey()}
             />
           </Col>
-          <Col span={4}>
+          <Col span={3}>
             <Voice
               value={playerSettings.volume * 100}
               onChange={this.handleVolumeChange}
             />
             <Popover
+              overlayClassName="music-player__playlist-popover"
               title="播放列表"
               content={this.rendMyPlayList()}
             >
@@ -228,7 +248,7 @@ export default class Player extends React.Component {
           ref={(refs) => { this.audioRef = refs; }}
           src={url}
           onTimeUpdate={this.handleTimeUpdate}
-        ></audio>
+        />
       </div>
     );
   }

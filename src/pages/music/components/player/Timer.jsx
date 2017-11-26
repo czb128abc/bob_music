@@ -27,11 +27,33 @@ function formatTimeInfo(currentTime, duration) {
   return `[${currentTimeStr}/${durationStr}]`;
 }
 
+const SongInfo = ({ imgUrl, title }) => (
+  <div className="song-info">
+    <div className="img-wrapper">
+      <img src={imgUrl} alt={title} />
+    </div>
+  </div>
+);
+
+SongInfo.propTypes = {
+  imgUrl: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
+
 const Timer = ({ currentTime, duration, onChange, playingSongInfo }) => {
   const formatter = value => `${value}%`;
   return (
     <div className="music-timer">
       <Row type="flex" justify="space-around" align="middle">
+        <Col span={2}>
+          {
+            playingSongInfo ?
+              (
+                <SongInfo imgUrl={playingSongInfo.imgUrl} title={playingSongInfo.title} />
+              )
+              : null
+          }
+        </Col>
         <Col span={16}>
           <Slider
             tipFormatter={formatter}
@@ -39,13 +61,11 @@ const Timer = ({ currentTime, duration, onChange, playingSongInfo }) => {
             onChange={onChange}
           />
         </Col>
-        <Col span={8}>
+        <Col span={4}>
           {formatTimeInfo(currentTime, duration)}
         </Col>
       </Row>
-      {
-        playingSongInfo ? playingSongInfo.title : (<span>等待歌曲播放</span>)
-      }
+
     </div>
   );
 };
@@ -54,5 +74,8 @@ Timer.propTypes = {
   duration: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   playingSongInfo: PropTypes.object,
+};
+Timer.defaultProps = {
+  playingSongInfo: null,
 };
 export default Timer;
