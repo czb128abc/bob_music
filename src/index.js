@@ -5,5 +5,5 @@ import './index.less';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.body);
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

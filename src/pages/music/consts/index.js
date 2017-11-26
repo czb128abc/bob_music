@@ -15,6 +15,6 @@ export const playModeMap = {
 export const musicPlatformMap = {
   netease: '网易',
   xiami: '虾米',
-  qq: 'QQ音乐'
+  qq: 'QQ'
 };
 
