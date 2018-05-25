@@ -2,6 +2,7 @@
   "name": "bob_music",
   "version": "0.1.0",
   "private": true,
+  "main": "electron_config/main.js",
   "dependencies": {
     "antd": "^2.12.6",
     "autoprefixer": "7.1.2",
@@ -62,7 +63,9 @@
     "start": "node scripts/start.js",
     "build": "NODE_ENV=production node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "lint": "eslint --fix src/** test/**"
+    "lint": "eslint --fix src/** test/**",
+    "electron": "electron .",
+    "package": "electron-packager ./ --platform=win32 --arch=x64 --build-version=0.1.0 --overwrite"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -107,6 +110,8 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.2.1",
+    "electron": "^2.0.2",
+    "electron-packager": "^12.1.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
