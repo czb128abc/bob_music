@@ -64,8 +64,10 @@
     "build": "NODE_ENV=production node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "lint": "eslint --fix src/** test/**",
-    "electron": "electron .",
-    "package": "electron-packager ./ --platform=win32 --arch=x64 --build-version=0.1.0 --overwrite"
+    "electron": "electron ./electron_config/main.js",
+    "package": "electron-packager  ./electron_config/main.js --platform=win32 --arch=x64 --build-version=0.1.0 --overwrite",
+    "package:mac": "electron-packager ./electron_config/main.js --platform=darwin --arch=x64 --build-version=0.1.0 --overwrite",
+    "package:macx": "CSC_IDENTITY_AUTO_DISCOVERY=false DEBUG=electron-builder electron-builder ./electron_config/main.js --platform darwin"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -111,6 +113,7 @@
   "devDependencies": {
     "copy-webpack-plugin": "^4.2.1",
     "electron": "^2.0.2",
+    "electron-builder": "^20.40.2",
     "electron-packager": "^12.1.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
