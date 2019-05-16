@@ -5,6 +5,8 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ### 描述
 
+根据 crate react app 创建项目, 使用技术 react+redux+antd
+
 bob_music 是一个 chrome 网页插件,使用方式是在 chrom 扩展程序 chrome://extensions/ 点击 **加载已解压的扩展程序** ,将本项目 build 目录 添加到目标中
 
 相关截图如下
